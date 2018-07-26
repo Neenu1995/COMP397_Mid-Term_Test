@@ -13,14 +13,17 @@ let app;
   let assetManager;
   let startButton;
   let rollButton;
+  //Bitmap objects variables for dice 1 and 2
+  let Dice1;
+  let Dice2;
     
   let manifest = [
-      { id: "one", src: "/Assets/images/1.png" }, 
-      { id: "two", src: "/Assets/images/2.png" }, 
-      { id: "three", src: "/Assets/images/3.png" }, 
-      { id: "four", src: "/Assets/images/4.png" },
-      { id: "five", src: "/Assets/images/5.png" },
-      { id: "six", src: "/Assets/images/6.png" },
+      { id: "1", src: "/Assets/images/1.png" }, 
+      { id: "2", src: "/Assets/images/2.png" }, 
+      { id: "3", src: "/Assets/images/3.png" }, 
+      { id: "4", src: "/Assets/images/4.png" },
+      { id: "5", src: "/Assets/images/5.png" },
+      { id: "6", src: "/Assets/images/6.png" },
       { id: "blank", src: "/Assets/images/blank.png" },
       { id: "StartButton", src: "/Assets/images/StartButton.png" }
     ];
@@ -33,7 +36,7 @@ let app;
       assetManager.loadManifest(manifest);
   }
 
-  //
+  
 
 
   /**
@@ -81,20 +84,26 @@ let app;
     startButton.regX = startButton.getBounds().width * 0.5;
     startButton.regY = startButton.getBounds().height * 0.5;
     startButton.x = 320;
-    startButton.y = 300;
+    startButton.y = 320;
     stage.addChild(startButton);
 
     // start button listeners
     startButton.addEventListener("click", function() {
 
+      //Added Roll Button
       stage.removeAllChildren();
-      rollButton = new createjs.Bitmap(assetManager.getResult("StartButton"));
-      rollButton.regX = rollButton.getBounds().width * 0.5;
-      rollButton.regY = rollButton.getBounds().height * 0.5;
-      rollButton.x = 320;
-      rollButton.y = 300;
-      stage.addChild(rollButton);
-        console.log("Roll Button Added");
+      startButton = new createjs.Bitmap(assetManager.getResult("StartButton"));
+      startButton.regX = startButton.getBounds().width * 0.5;
+      startButton.regY = startButton.getBounds().height * 0.5;
+      startButton.x = 320;
+      startButton.y = 320;
+      stage.addChild(startButton);
+      console.log("Roll Button Added");
+
+      //Listener to roll die on button click
+      startButton.addEventListener("click",rollDice);
+
+       
     });
 
     startButton.addEventListener("mouseover", function(event) {
@@ -104,6 +113,49 @@ let app;
     startButton.addEventListener("mouseout", function(event) {
         event.currentTarget.alpha = 1.0;
     });
+  }
+
+  //Method to Roll Dice
+  function rollDice(){
+    stage.removeAllChildren();
+    stage.addChild(startButton);
+    //Random number generation
+    var diceCount1 = (Math.floor(Math.random()*6) + 1);
+    var diceCount2 = (Math.floor(Math.random()*6) + 1);
+    console.log("diceCount1 "+ diceCount1);
+  
+    //retrieving the image for randomly generated numbers
+    var diceImage1 = assetManager.getResult(diceCount1);
+    var diceImage2 = assetManager.getResult(diceCount2);
+
+    //Bitmap images created
+    Dice1 = new createjs.Bitmap(diceImage1);
+    Dice2 = new createjs.Bitmap(diceImage2);
+
+    //Dice image locations
+    var diceWidth = Dice1.getBounds().width;
+    Dice1.x = 720 - (diceWidth*2) - diceWidth;
+    Dice2.x = 720 - (diceWidth) - diceWidth;
+    Dice1.y = 60;
+    Dice2.y = 60;
+
+    //Text view of dice Value created
+    diceImage1 = new createjs.Text(diceCount1);
+    diceImage2 = new createjs.Text(diceCount2);
+
+    //Text view locations
+    var diceHeight = Dice1.getBounds().height;
+    diceImage1.x = 720 - (diceWidth*2) -(diceWidth/2);
+    diceImage2.x = 720 - (diceWidth) -(diceWidth/2);
+    diceImage1.y = 60 +diceHeight + 10;
+    diceImage2.y = 60 +diceHeight + 10;
+
+    //adding objects to the stage
+    stage.addChild(Dice1);
+    stage.addChild(Dice2);
+    stage.addChild(diceImage1);
+    stage.addChild(diceImage2);
+
   }
 
   window.addEventListener("load", Init);
