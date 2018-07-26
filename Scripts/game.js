@@ -1,3 +1,7 @@
+//Neenu Shaji
+//Student ID : 300991504
+//Date : 26/07/2018
+
 let app;
 (function(app) {
   "use strict";
@@ -8,6 +12,7 @@ let app;
   let helloLabel;
   let assetManager;
   let startButton;
+  let rollButton;
     
   let manifest = [
       { id: "one", src: "/Assets/images/1.png" }, 
@@ -27,6 +32,8 @@ let app;
       assetManager.on("complete", Start);
       assetManager.loadManifest(manifest);
   }
+
+  //
 
 
   /**
@@ -79,7 +86,15 @@ let app;
 
     // start button listeners
     startButton.addEventListener("click", function() {
-        console.log("Start Button Clicked");
+
+      stage.removeAllChildren();
+      rollButton = new createjs.Bitmap(assetManager.getResult("StartButton"));
+      rollButton.regX = rollButton.getBounds().width * 0.5;
+      rollButton.regY = rollButton.getBounds().height * 0.5;
+      rollButton.x = 320;
+      rollButton.y = 300;
+      stage.addChild(rollButton);
+        console.log("Roll Button Added");
     });
 
     startButton.addEventListener("mouseover", function(event) {
