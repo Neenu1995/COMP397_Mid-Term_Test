@@ -1,6 +1,7 @@
 //Neenu Shaji
 //Student ID : 300991504
 //Date : 26/07/2018
+//Program displays success message when both the dice have same number.
 
 let app;
 (function(app) {
@@ -12,7 +13,7 @@ let app;
   let helloLabel;
   let assetManager;
   let startButton;
-  let rollButton;
+  let successLabel;
   //Bitmap objects variables for dice 1 and 2
   let Dice1;
   let Dice2;
@@ -122,7 +123,7 @@ let app;
     //Random number generation
     var diceCount1 = (Math.floor(Math.random()*6) + 1);
     var diceCount2 = (Math.floor(Math.random()*6) + 1);
-    console.log("diceCount1 "+ diceCount1);
+   
   
     //retrieving the image for randomly generated numbers
     var diceImage1 = assetManager.getResult(diceCount1);
@@ -156,6 +157,21 @@ let app;
     stage.addChild(diceImage1);
     stage.addChild(diceImage2);
 
+    //Success method added
+    if (diceCount1 == diceCount2){
+      win();
+    }
+
+  }
+
+  //Method to display success message
+  function win(){
+    successLabel = new createjs.Text("Success!!", "60px Consolas", " #0F52BA");
+    successLabel.regX = successLabel.getBounds().width * 0.5;
+    successLabel.regY = successLabel.getBounds().height * 0.5;
+    successLabel.x = 320;
+    successLabel.y = 60 +Dice1.getBounds().height + 100;
+    stage.addChild(successLabel);
   }
 
   window.addEventListener("load", Init);
